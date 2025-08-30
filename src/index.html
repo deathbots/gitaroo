@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guitar Fretboard Learning Tool</title>
+    <!-- duvet: REQ-TECH-001 - HTML5, CSS3, and vanilla JavaScript implementation -->
+    <!-- duvet: REQ-TECH-002 - Responsive design for desktop and tablet -->
+    <!-- duvet: REQ-TECH-003 - Modern browser compatibility -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/canvas.css">
+    <link rel="stylesheet" href="styles/grid.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <!-- duvet: REQ-SYS-001 - Static HTML application with no server dependencies -->
+    <!-- duvet: REQ-CAN-004 - Canvas Controller toolbar positioned above Canvas -->
+    <div class="app-container">
+        <header class="canvas-controller">
+            <div class="toolbar">
+                <!-- duvet: REQ-CAN-005 - Orientation toggle button -->
+                <button id="orientation-toggle" class="btn-primary" title="Toggle Canvas Orientation">
+                    📄 Portrait/Landscape
+                </button>
+                
+                <!-- duvet: REQ-CAN-006 - Lock/unlock toggle -->
+                <button id="lock-toggle" class="btn-primary" title="Lock/Unlock Canvas">
+                    🔓 Unlock
+                </button>
+                
+                <!-- duvet: REQ-CAN-007 - Create Grid button -->
+                <button id="create-grid" class="btn-primary" title="Create New Fretboard Grid">
+                    ➕ Create Grid
+                </button>
+                
+                <!-- duvet: REQ-CAN-008 - Save and Load functionality -->
+                <button id="save-canvas" class="btn-primary" title="Save Canvas State">
+                    💾 Save
+                </button>
+                
+                <input type="file" id="load-canvas" accept=".json" style="display: none;">
+                <button id="load-trigger" class="btn-primary" title="Load Canvas State">
+                    📁 Load
+                </button>
+                
+                <!-- duvet: REQ-CAN-010 - Undo and Redo buttons -->
+                <button id="undo" class="btn-secondary" title="Undo Last Action" disabled>
+                    ↶ Undo
+                </button>
+                
+                <button id="redo" class="btn-secondary" title="Redo Last Action" disabled>
+                    ↷ Redo
+                </button>
+            </div>
+        </header>
+
+        <!-- duvet: REQ-CAN-001 - Canvas with US Letter paper dimensions -->
+        <!-- duvet: REQ-CAN-002 - Support for portrait and landscape orientation -->
+        <!-- duvet: REQ-CAN-003 - Prevent Grid elements from extending beyond boundaries -->
+        <!-- duvet: REQ-CAN-009 - Drag-and-drop file loading support -->
+        <main class="canvas-container">
+            <div id="canvas" class="canvas portrait">
+                <div class="drop-zone hidden">
+                    <div class="drop-zone-content">
+                        <div class="drop-icon">📁</div>
+                        <div class="drop-text">Drop JSON file to load</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- duvet: REQ-TECH-001 - Vanilla JavaScript implementation -->
+    <script type="module" src="main.js"></script>
+</body>
+</html>
