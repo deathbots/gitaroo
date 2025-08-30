@@ -1,0 +1,312 @@
+/* Grid System Styles */
+/* duvet: REQ-GRID-001 - HTML elements and CSS styling, not canvas elements */
+/* duvet: REQ-GRID-002 - Fretboard representation with configurable fret range */
+
+.grid {
+    position: absolute;
+    background-color: white;
+    border: 2px solid var(--grid-border);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* duvet: REQ-GRID-021 - Draggable within Canvas boundaries */
+    cursor: move;
+    user-select: none;
+}
+
+.grid.locked {
+    cursor: default;
+}
+
+/* duvet: REQ-UI-004 - Grid boundaries clearly visible and distinguishable */
+.grid:hover {
+    border-color: var(--button-primary);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+/* Grid controller - duvet: REQ-GRID-013 - Positioned at top of Grid */
+.grid-controller {
+    background-color: var(--secondary-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-radius: 6px 6px 0 0;
+}
+
+.grid-controller label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.grid-controller input[type="number"],
+.grid-controller select {
+    padding: 2px 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    font-size: 12px;
+    width: 60px;
+}
+
+.grid-controller .tuning-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.grid-controller .tuning-select {
+    width: 50px;
+}
+
+.grid-controller .btn-small {
+    padding: 2px 6px;
+    font-size: 11px;
+    border-radius: 3px;
+}
+
+.grid-controller .delete-btn {
+    background-color: #dc3545;
+    color: white;
+    margin-left: auto;
+}
+
+.grid-controller .delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Fretboard display area */
+.fretboard {
+    position: relative;
+    padding: 20px;
+    min-height: 200px;
+}
+
+/* Vertical orientation - duvet: REQ-GRID-008, REQ-GRID-009, REQ-GRID-011 */
+.fretboard.vertical {
+    display: grid;
+    grid-template-areas: 
+        "fret-numbers fret-area string-names";
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+}
+
+/* Horizontal orientation - duvet: REQ-GRID-008, REQ-GRID-010, REQ-GRID-012 */
+.fretboard.horizontal {
+    display: grid;
+    grid-template-areas: 
+        "string-names"
+        "fret-area"
+        "fret-numbers";
+    grid-template-rows: auto 1fr auto;
+    gap: 10px;
+}
+
+.fret-numbers {
+    grid-area: fret-numbers;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-secondary);
+}
+
+.fretboard.vertical .fret-numbers {
+    flex-direction: column;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+}
+
+.fretboard.horizontal .fret-numbers {
+    flex-direction: row;
+}
+
+.string-names {
+    grid-area: string-names;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-secondary);
+}
+
+.fretboard.vertical .string-names {
+    flex-direction: column-reverse;
+}
+
+.fretboard.horizontal .string-names {
+    flex-direction: row;
+}
+
+.fret-area {
+    grid-area: fret-area;
+    position: relative;
+    display: grid;
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* Vertical fret area layout */
+.fretboard.vertical .fret-area {
+    /* Grid will be dynamically configured based on fret range and string count */
+    grid-template-rows: repeat(var(--string-count, 6), 1fr);
+    grid-template-columns: repeat(var(--fret-count, 8), 1fr);
+    min-height: 300px;
+    min-width: 400px;
+}
+
+/* Horizontal fret area layout */
+.fretboard.horizontal .fret-area {
+    grid-template-rows: repeat(var(--fret-count, 8), 1fr);
+    grid-template-columns: repeat(var(--string-count, 6), 1fr);
+    min-height: 400px;
+    min-width: 300px;
+}
+
+/* Fret and string lines */
+.fret-line {
+    position: absolute;
+    background-color: var(--fret-color);
+}
+
+.fretboard.vertical .fret-line {
+    width: 2px;
+    height: 100%;
+    top: 0;
+}
+
+.fretboard.horizontal .fret-line {
+    height: 2px;
+    width: 100%;
+    left: 0;
+}
+
+.string-line {
+    position: absolute;
+    background-color: var(--string-color);
+}
+
+.fretboard.vertical .string-line {
+    height: 1px;
+    width: 100%;
+    left: 0;
+}
+
+.fretboard.horizontal .string-line {
+    width: 1px;
+    height: 100%;
+    top: 0;
+}
+
+/* Fret position markers - duvet: REQ-GRID-005, REQ-GRID-006, REQ-GRID-007 */
+.fret-marker {
+    position: absolute;
+    background-color: var(--fret-marker);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.fret-marker.single {
+    width: 12px;
+    height: 12px;
+}
+
+.fret-marker.double {
+    width: 8px;
+    height: 8px;
+}
+
+/* Note placement areas - duvet: REQ-NOTE-001 - Clickable fret/string intersections */
+.note-position {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    transition: all 0.1s ease;
+}
+
+.note-position:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    border-color: var(--button-primary);
+}
+
+.grid.locked .note-position {
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Note circles - duvet: REQ-NOTE-002 - Rendered as circles overlaying intersections */
+.note {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.note:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.grid.locked .note {
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Note colors - duvet: REQ-NOTE-006, REQ-NOTE-007, REQ-NOTE-008 */
+.note.c { background-color: var(--note-c); }
+.note.c-sharp { background-color: var(--note-c-sharp); }
+.note.d { background-color: var(--note-d); }
+.note.d-sharp { background-color: var(--note-d-sharp); }
+.note.e { background-color: var(--note-e); }
+.note.f { background-color: var(--note-f); }
+.note.f-sharp { background-color: var(--note-f-sharp); }
+.note.g { background-color: var(--note-g); }
+.note.g-sharp { background-color: var(--note-g-sharp); }
+.note.a { background-color: var(--note-a); }
+.note.a-sharp { background-color: var(--note-a-sharp); }
+.note.b { background-color: var(--note-b); }
+
+/* Group colors - duvet: REQ-NOTE-010 */
+.note.group-1 { background-color: var(--group-1); }
+.note.group-2 { background-color: var(--group-2); }
+.note.group-3 { background-color: var(--group-3); }
+.note.group-4 { background-color: var(--group-4); }
+
+/* Root note color - duvet: REQ-NOTE-015 */
+.note.root { background-color: var(--root-note); }
+
+/* Interval colors - duvet: REQ-INT-004, REQ-INT-005 */
+.note.interval-minor-3rd { background-color: var(--interval-minor-3rd); }
+.note.interval-major-3rd { background-color: var(--interval-major-3rd); }
+.note.interval-perfect-4th { background-color: var(--interval-perfect-4th); }
+.note.interval-perfect-5th { background-color: var(--interval-perfect-5th); }
+.note.interval-minor-7th { background-color: var(--interval-minor-7th); }
+.note.interval-major-7th { background-color: var(--interval-major-7th); }
+.note.interval-octave { background-color: var(--interval-octave); color: black; }
+
+/* Delete animation - duvet: REQ-GRID-020 */
+@keyframes deleteFlash {
+    0% { background-color: #dc3545; transform: scale(1); }
+    50% { background-color: #ff6b7a; transform: scale(1.1); }
+    100% { background-color: #dc3545; transform: scale(1); }
+}
+
+.grid.delete-flash {
+    animation: deleteFlash 0.3s ease;
+}

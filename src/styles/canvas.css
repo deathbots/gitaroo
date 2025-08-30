@@ -1,0 +1,193 @@
+/* Canvas System Styles */
+/* duvet: REQ-CAN-001 - Canvas dimensions equivalent to US Letter paper */
+/* duvet: REQ-CAN-002 - Portrait and landscape orientation support */
+/* duvet: REQ-CAN-003 - Prevent Grid elements from extending beyond boundaries */
+
+.canvas-controller {
+    width: 100%;
+    max-width: var(--canvas-width-landscape);
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px 8px 0 0;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: var(--secondary-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.canvas {
+    position: relative;
+    background-color: white;
+    border: 2px solid var(--grid-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    /* duvet: REQ-UI-004 - Canvas boundaries clearly visible */
+    outline: 3px solid var(--button-primary);
+    outline-offset: 2px;
+}
+
+/* Portrait orientation - duvet: REQ-CAN-001 */
+.canvas.portrait {
+    width: var(--canvas-width-portrait);
+    height: var(--canvas-height-portrait);
+}
+
+/* Landscape orientation - duvet: REQ-CAN-002 */
+.canvas.landscape {
+    width: var(--canvas-width-landscape);
+    height: var(--canvas-height-landscape);
+}
+
+/* Canvas lock state visual indication - duvet: REQ-UI-003 */
+.canvas.locked {
+    background-color: #f8f9fa;
+    border-color: var(--button-disabled);
+}
+
+.canvas.locked::before {
+    content: "🔒 LOCKED";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(220, 53, 69, 0.9);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+/* Drag and drop file loading - duvet: REQ-CAN-009 */
+.drop-zone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 123, 255, 0.1);
+    border: 3px dashed var(--button-primary);
+    border-radius: 8px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* duvet: REQ-UI-002 - Visual indication when file is dragged over */
+}
+
+.drop-zone.active {
+    background-color: rgba(0, 123, 255, 0.2);
+    border-color: #0056b3;
+}
+
+.drop-zone-content {
+    text-align: center;
+    color: var(--button-primary);
+}
+
+.drop-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.drop-text {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Canvas content area */
+.canvas-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+/* Grid positioning constraints - duvet: REQ-GRID-022 */
+.grid-container {
+    position: absolute;
+    /* Grids will be positioned within canvas boundaries */
+}
+
+/* Print styles - duvet: REQ-CAN-001 - Print-ready dimensions */
+@media print {
+    .canvas-controller {
+        display: none;
+    }
+    
+    .canvas-container {
+        padding: 0;
+        background: none;
+        box-shadow: none;
+    }
+    
+    .canvas {
+        border: none;
+        box-shadow: none;
+        outline: none;
+        margin: 0;
+    }
+    
+    .canvas.portrait {
+        width: 8.5in;
+        height: 11in;
+    }
+    
+    .canvas.landscape {
+        width: 11in;
+        height: 8.5in;
+    }
+}
+
+/* Responsive adjustments - duvet: REQ-TECH-002 */
+@media (max-width: 1200px) {
+    .canvas.portrait {
+        transform: scale(0.8);
+        transform-origin: top center;
+    }
+    
+    .canvas.landscape {
+        transform: scale(0.7);
+        transform-origin: top center;
+    }
+}
+
+@media (max-width: 900px) {
+    .canvas.portrait {
+        transform: scale(0.6);
+    }
+    
+    .canvas.landscape {
+        transform: scale(0.5);
+    }
+}
+
+@media (max-width: 600px) {
+    .canvas.portrait {
+        transform: scale(0.4);
+    }
+    
+    .canvas.landscape {
+        transform: scale(0.35);
+    }
+    
+    .canvas-container {
+        padding: 10px;
+    }
+}
